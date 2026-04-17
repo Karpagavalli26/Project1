@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Directory</title>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #e3f2fd, #fce4ec);
+    margin: 0;
+    text-align: center;
+}
+
+h2 {
+    margin: 20px;
+    color: #333;
+}
+
+input {
+    padding: 10px;
+    width: 240px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+input:focus {
+    border-color: #e92e8e;
+    box-shadow: 0 0 5px rgba(103,58,183,0.3);
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background: #aa0b6d;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #b71586;
+    transform: scale(1.05);
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    margin: 12px;
+    width: 230px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+}
+
+.card h4 {
+    color: #4c0425;
+    margin-bottom: 8px;
+}
+
+.card p {
+    margin: 5px 0;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>👤 User Directory</h2>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+function App() {
+
+    const [users, setUsers] = React.useState([
+        { name: "Ramya", email: "ramya@mail.com", phone: "9876543210", company: "ABC Ltd" },
+        { name: "Bala", email: "bala@mail.com", phone: "9123456780", company: "XYZ Corp" },
+        { name: "Charan", email: "charan@mail.com", phone: "9012345678", company: "TechSoft" },
+        { name: "Divya", email: "divya@mail.com", phone: "8899776655", company: "InfoSys" }
+    ]);
+
+    const [search, setSearch] = React.useState("");
+
+    const filteredUsers = users.filter(u =>
+        u.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const sortAZ = () => {
+        const sorted = [...users].sort((a, b) =>
+            a.name.localeCompare(b.name)
+        );
+        setUsers(sorted);
+    };
+
+    const sortZA = () => {
+        const sorted = [...users].sort((a, b) =>
+            b.name.localeCompare(a.name)
+        );
+        setUsers(sorted);
+    };
+
+    return (
+        <div>
+
+            <input
+                placeholder="Search name"
+                onChange={(e) => setSearch(e.target.value)}
+            />
+
+            <br/>
+
+            <button onClick={sortAZ}>A-Z</button>
+            <button onClick={sortZA}>Z-A</button>
+
+            <div className="container">
+                {filteredUsers.map((u, i) => (
+                    <div className="card" key={i}>
+                        <h4>{u.name}</h4>
+                        <p><b>Email:</b> {u.email}</p>
+                        <p><b>Phone:</b> {u.phone}</p>
+                        <p><b>Company:</b> {u.company}</p>
+                    </div>
+                ))}
+            </div>
+
+        </div>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+
+</body>
+</html>
